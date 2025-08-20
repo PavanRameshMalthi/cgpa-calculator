@@ -17,51 +17,45 @@ document.getElementById("addSemesterBtn").addEventListener("click", () => {
   const semesterDiv = document.createElement("div");
   semesterDiv.classList.add("semester");
   semesterDiv.id = `semester-${semesterCount}`;
+  
   semesterDiv.innerHTML = `
     <h3>Semester ${semesterCount}</h3>
-    <div class="subjects">
+    <div class="subjects" id="subjects-${semesterCount}">
       <div class="subject">
-        Subject 1: 
+        Subject 1:
         <select>
-          <option>O</option>
-          <option>A+</option>
-          <option>A</option>
-          <option>B+</option>
-          <option>B</option>
-          <option>C</option>
-          <option>F</option>
-        </select>
-      </div>
-      <div class="subject">
-        Subject 2: 
-        <select>
-          <option>O</option>
-          <option>A+</option>
-          <option>A</option>
-          <option>B+</option>
-          <option>B</option>
-          <option>C</option>
-          <option>F</option>
-        </select>
-      </div>
-      <div class="subject">
-        Subject 3: 
-        <select>
-          <option>O</option>
-          <option>A+</option>
-          <option>A</option>
-          <option>B+</option>
-          <option>B</option>
-          <option>C</option>
-          <option>F</option>
+          ${Object.keys(gradePoints).map(grade => `<option>${grade}</option>`).join("")}
         </select>
       </div>
     </div>
+    <button class="addSubjectBtn" data-sem="${semesterCount}">➕ Add Subject</button>
   `;
+
   document.getElementById("semesters").appendChild(semesterDiv);
+
+  // Add subject button event
+  semesterDiv.querySelector(".addSubjectBtn").addEventListener("click", (e) => {
+    const semId = e.target.getAttribute("data-sem");
+    const subjectsDiv = document.getElementById(`subjects-${semId}`);
+    const currentSubjects = subjectsDiv.querySelectorAll(".subject").length;
+
+    if (currentSubjects < 15) {
+      const subjectDiv = document.createElement("div");
+      subjectDiv.classList.add("subject");
+      subjectDiv.innerHTML = `
+        Subject ${currentSubjects + 1}:
+        <select>
+          ${Object.keys(gradePoints).map(grade => `<option>${grade}</option>`).join("")}
+        </select>
+      `;
+      subjectsDiv.appendChild(subjectDiv);
+    } else {
+      alert("⚠️ Maximum 15 subjects allowed per semester.");
+    }
+  });
 });
 
-// Calculate CGPA
+// Calculate CGPA + Percentage
 document.getElementById("calculateCgpaBtn").addEventListener("click", () => {
   let totalPoints = 0;
   let totalSubjects = 0;
@@ -81,5 +75,8 @@ document.getElementById("calculateCgpaBtn").addEventListener("click", () => {
   }
 
   const cgpa = (totalPoints / totalSubjects).toFixed(2);
-  document.getElementById("result").innerText = `🎓 Your CGPA is: ${cgpa}`;
+  const percentage = (cgpa * 9.5).toFixed(2);
+
+  document.getElementById("result").innerText = 
+    `🎓 Your CGPA is: ${cgpa} | 📊 Percentage: ${percentage}%`;
 });
