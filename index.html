@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CGPA Calculator</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <div class="container">
     <h1>📘 CGPA Calculator</h1>
-    <p>Enter your grades for each semester and calculate CGPA & Percentage.</p>
-
-    <!-- Semester Section -->
+    <div id="errors" class="errors" aria-live="polite"></div>
     <div id="semesters"></div>
 
-    <button id="addSemesterBtn">➕ Add Semester</button>
-    <button id="calculateCgpaBtn">📊 Calculate CGPA</button>
+    <div class="actions">
+      <button id="addSemesterBtn">➕ Add Semester</button>
+      <button id="calculateCgpaBtn">📊 Calculate CGPA</button>
+    </div>
 
-    <h2 id="result"></h2>
+    <h2 id="result" aria-live="polite"></h2>
   </div>
 
   <script src="script.js"></script>
