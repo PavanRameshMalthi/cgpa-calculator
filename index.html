@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CGPA Calculator</title>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h1>📘 CGPA Calculator</h1>
-    <div id="errors" class="errors" aria-live="polite"></div>
-    <div id="semesters"></div>
+    <h1>CGPA Calculator</h1>
 
-    <div class="actions">
-      <button id="addSemesterBtn">➕ Add Semester</button>
-      <button id="calculateCgpaBtn">📊 Calculate CGPA</button>
+    <div id="subjects-container">
+      <!-- Subjects will be added dynamically -->
     </div>
 
-    <h2 id="result" aria-live="polite"></h2>
+    <button onclick="addSubject()">➕ Add Subject</button>
+    <button onclick="calculateCGPA()">✅ Calculate</button>
+    <button onclick="resetCalculator()">🔄 Reset</button>
+
+    <p id="result"></p>
+    <p id="percentage"></p>
+    <p id="warning" class="warning"></p>
   </div>
 
   <script src="script.js"></script>
