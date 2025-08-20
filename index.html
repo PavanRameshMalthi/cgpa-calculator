@@ -3,24 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CGPA Calculator</title>
+  <title>Grade Calculator</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h1>CGPA Calculator</h1>
-
-    <div id="subjects-container">
-      <!-- Subjects will be added dynamically -->
-    </div>
-
-    <button onclick="addSubject()">➕ Add Subject</button>
-    <button onclick="calculateCGPA()">✅ Calculate</button>
-    <button onclick="resetCalculator()">🔄 Reset</button>
-
+    <h2>📚 Grade Calculator</h2>
+    
+    <div id="subjects"></div>
+    
+    <button id="addSubjectBtn">➕ Add Subject</button>
+    <button id="calculateBtn">✅ Calculate</button>
+    <button id="resetBtn">🔄 Reset</button>
+    
     <p id="result"></p>
-    <p id="percentage"></p>
-    <p id="warning" class="warning"></p>
   </div>
 
   <script src="script.js"></script>

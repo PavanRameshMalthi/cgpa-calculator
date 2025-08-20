@@ -1,80 +1,86 @@
 let subjectCount = 0;
-const maxSubjects = 15;
+const subjectsDiv = document.getElementById("subjects");
+const result = document.getElementById("result");
+
+document.getElementById("addSubjectBtn").addEventListener("click", addSubject);
+document.getElementById("calculateBtn").addEventListener("click", calculate);
+document.getElementById("resetBtn").addEventListener("click", resetAll);
+
+// Grade points mapping
+const gradePoints = {
+  "O": 10,
+  "A+": 9,
+  "A": 8,
+  "B+": 7,
+  "B": 6,
+  "C": 5,
+  "F": 0
+};
 
 function addSubject() {
-  if (subjectCount >= maxSubjects) {
-    alert("You can add up to 15 subjects only.");
+  if (subjectCount >= 15) {
+    alert("Maximum 15 subjects allowed!");
     return;
   }
 
   subjectCount++;
-  const container = document.getElementById("subjects-container");
-
-  const div = document.createElement("div");
-  div.classList.add("subject");
-  div.innerHTML = `
+  const subjectDiv = document.createElement("div");
+  subjectDiv.classList.add("subject");
+  subjectDiv.innerHTML = `
     <label>Subject ${subjectCount}: </label>
     <select class="grade">
-      <option value="">--Select Grade--</option>
-      <option value="10">O (Outstanding)</option>
-      <option value="9">A+</option>
-      <option value="8">A</option>
-      <option value="7">B+</option>
-      <option value="6">B</option>
-      <option value="5">C</option>
-      <option value="0">F</option>
+      <option value="">Select Grade</option>
+      <option value="O">O</option>
+      <option value="A+">A+</option>
+      <option value="A">A</option>
+      <option value="B+">B+</option>
+      <option value="B">B</option>
+      <option value="C">C</option>
+      <option value="F">F</option>
     </select>
-    <input type="number" class="credit" placeholder="Credit (1-10)" min="1" max="10">
+    <input type="number" class="credit" placeholder="Credits" min="1" max="10">
   `;
-  container.appendChild(div);
+  subjectsDiv.appendChild(subjectDiv);
 }
 
-function calculateCGPA() {
+function calculate() {
   const grades = document.querySelectorAll(".grade");
   const credits = document.querySelectorAll(".credit");
 
-  let totalCredits = 0;
   let totalPoints = 0;
-  let valid = true;
+  let totalCredits = 0;
 
   for (let i = 0; i < grades.length; i++) {
-    const grade = parseFloat(grades[i].value);
-    const credit = parseFloat(credits[i].value);
+    const grade = grades[i].value;
+    const credit = parseInt(credits[i].value);
 
-    if (isNaN(grade) || isNaN(credit)) {
-      valid = false;
-      break;
-    }
-
-    if (credit > 10) {
-      document.getElementById("warning").innerText =
-        "⚠️ Credit cannot be greater than 10!";
+    if (!grade || isNaN(credit)) {
+      alert("Please fill all grades and credits!");
       return;
     }
 
+    if (credit > 10) {
+      alert("Credits cannot be greater than 10!");
+      return;
+    }
+
+    totalPoints += gradePoints[grade] * credit;
     totalCredits += credit;
-    totalPoints += grade * credit;
   }
 
-  if (!valid || totalCredits === 0) {
-    document.getElementById("result").innerText = "⚠️ Please fill all fields!";
-    document.getElementById("percentage").innerText = "";
-    document.getElementById("warning").innerText = "";
+  if (totalCredits === 0) {
+    result.innerText = "No subjects added!";
     return;
   }
 
-  const cgpa = totalPoints / totalCredits;
-  const percentage = (cgpa - 0.75) * 10;
+  const gpa = totalPoints / totalCredits;
+  const percentage = gpa * 10; // Approx conversion
 
-  document.getElementById("result").innerText = `CGPA: ${cgpa.toFixed(2)}`;
-  document.getElementById("percentage").innerText = `Percentage: ${percentage.toFixed(2)}%`;
-  document.getElementById("warning").innerText = "";
+  result.innerText = `🎯 GPA: ${gpa.toFixed(2)} | 📊 Percentage: ${percentage.toFixed(2)}%`;
 }
 
-function resetCalculator() {
-  document.getElementById("subjects-container").innerHTML = "";
-  document.getElementById("result").innerText = "";
-  document.getElementById("percentage").innerText = "";
-  document.getElementById("warning").innerText = "";
+function resetAll() {
+  subjectsDiv.innerHTML = "";
+  result.innerText = "";
   subjectCount = 0;
 }
