@@ -16,7 +16,7 @@ body {
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   text-align: center;
   width: 90%;
-  max-width: 750px; /* Increased width for two columns */
+  max-width: 850px;
 }
 
 h2 {
@@ -24,34 +24,39 @@ h2 {
   color: #333;
 }
 
-/* Grid layout for the subjects container */
 #subjects {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Two equal columns */
-  gap: 10px; /* Space between subject items */
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
   margin-bottom: 20px;
 }
 
 .subject {
-  padding: 10px;
   background: #f4f4f4;
+  padding: 12px;
   border-radius: 10px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 10px;
 }
 
 label {
   font-weight: bold;
-  white-space: nowrap; /* Prevents text wrap */
-  margin-right: 10px;
+  white-space: nowrap;
+}
+
+input {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 70px;
 }
 
 select {
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    flex-grow: 1; 
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  flex-grow: 1;
 }
 
 button {
@@ -61,11 +66,11 @@ button {
   border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
-  transition: background-color 0.3s;
+  transition: 0.3s;
 }
 
 button:hover {
-    opacity: 0.9;
+  opacity: 0.9;
 }
 
 #addSubjectBtn {
@@ -85,7 +90,26 @@ button:hover {
 
 #result {
   margin-top: 20px;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   color: #333;
+}
+
+/* Mobile Responsive */
+
+@media (max-width: 600px) {
+
+  #subjects {
+    grid-template-columns: 1fr;
+  }
+
+  .subject {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  input,
+  select {
+    width: 100%;
+  }
 }
