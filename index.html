@@ -1,27 +1,114 @@
+<!-- index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SGPA Calculator</title>
+
+  <title>Modern SGPA Calculator</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  />
+
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
+  <!-- Dark Mode Toggle -->
+
+  <button class="theme-toggle" id="themeToggle">
+    <i class="fa-solid fa-moon"></i>
+  </button>
 
   <div class="container">
 
-    <h2>📚 SGPA Calculator</h2>
+    <!-- Header -->
+
+    <div class="header">
+
+      <h1>SGPA Calculator</h1>
+
+      <p>
+        Calculate your SGPA and Percentage instantly
+      </p>
+
+    </div>
+
+    <!-- Stats -->
+
+    <div class="stats">
+
+      <div class="stat-card">
+        <h3 id="subjectCount">0</h3>
+        <p>Subjects</p>
+      </div>
+
+      <div class="stat-card">
+        <h3 id="creditCount">0</h3>
+        <p>Total Credits</p>
+      </div>
+
+    </div>
+
+    <!-- Subjects -->
 
     <div id="subjects"></div>
 
-    <button id="addSubjectBtn">➕ Add Subject</button>
-    <button id="calculateBtn">✅ Calculate SGPA</button>
-    <button id="resetBtn">🔄 Reset</button>
+    <!-- Empty State -->
 
-    <p id="result"></p>
+    <div class="empty-state" id="emptyState">
+
+      <i class="fa-solid fa-book-open"></i>
+
+      <p>No subjects added yet</p>
+
+    </div>
+
+    <!-- Buttons -->
+
+    <div class="buttons">
+
+      <button id="addSubjectBtn" class="add-btn">
+
+        <i class="fa-solid fa-plus"></i>
+        Add Subject
+
+      </button>
+
+      <button id="calculateBtn" class="calculate-btn">
+
+        <i class="fa-solid fa-calculator"></i>
+        Calculate
+
+      </button>
+
+      <button id="resetBtn" class="reset-btn">
+
+        <i class="fa-solid fa-rotate-right"></i>
+        Reset
+
+      </button>
+
+    </div>
+
+    <!-- Result -->
+
+    <div id="result"></div>
 
   </div>
 
   <script src="script.js"></script>
+
 </body>
 </html>

@@ -1,24 +1,68 @@
+// script.js
+
 document.addEventListener('DOMContentLoaded', () => {
 
   let subjectCount = 0;
 
-  const subjectsDiv = document.getElementById("subjects");
-  const result = document.getElementById("result");
+  const subjectsDiv =
+    document.getElementById("subjects");
+
+  const result =
+    document.getElementById("result");
+
+  const emptyState =
+    document.getElementById("emptyState");
+
+  const subjectCounter =
+    document.getElementById("subjectCount");
+
+  const creditCounter =
+    document.getElementById("creditCount");
 
   // Buttons
 
-  document.getElementById("addSubjectBtn")
-          .addEventListener("click", addSubject);
+  document
+    .getElementById("addSubjectBtn")
+    .addEventListener("click", addSubject);
 
-  document.getElementById("calculateBtn")
-          .addEventListener("click", calculate);
+  document
+    .getElementById("calculateBtn")
+    .addEventListener("click", calculate);
 
-  document.getElementById("resetBtn")
-          .addEventListener("click", resetAll);
+  document
+    .getElementById("resetBtn")
+    .addEventListener("click", resetAll);
 
-  // Grade Points Mapping
+  // Dark Mode
+
+  const themeToggle =
+    document.getElementById("themeToggle");
+
+  themeToggle.addEventListener("click", () => {
+
+    document.body.classList.toggle("dark");
+
+    const icon =
+      themeToggle.querySelector("i");
+
+    if (document.body.classList.contains("dark")) {
+
+      icon.classList.remove("fa-moon");
+      icon.classList.add("fa-sun");
+
+    } else {
+
+      icon.classList.remove("fa-sun");
+      icon.classList.add("fa-moon");
+
+    }
+
+  });
+
+  // Grade Points
 
   const gradePoints = {
+
     "O": 10,
     "A+": 9,
     "A": 8,
@@ -27,38 +71,58 @@ document.addEventListener('DOMContentLoaded', () => {
     "C": 5,
     "D": 4,
     "F": 0
+
   };
 
-  // Add Subject Function
+  // Add Subject
 
   function addSubject() {
 
     if (subjectCount >= 15) {
+
       alert("Maximum 15 subjects allowed!");
+
       return;
     }
 
     subjectCount++;
 
-    const subjectDiv = document.createElement("div");
+    updateStats();
+
+    emptyState.style.display = "none";
+
+    const subjectDiv =
+      document.createElement("div");
 
     subjectDiv.classList.add("subject");
 
     subjectDiv.innerHTML = `
 
-      <label>Subject ${subjectCount}</label>
+      <div class="subject-top">
 
-      <input 
-        type="number" 
-        class="credit" 
-        placeholder="Credits"
+        <label>
+          Subject ${subjectCount}
+        </label>
+
+        <button class="remove-btn">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+      </div>
+
+      <input
+        type="number"
+        class="credit"
+        placeholder="Enter Credits"
         min="1"
         max="10"
       >
 
       <select class="grade">
 
-        <option value="">Select Grade</option>
+        <option value="">
+          Select Grade
+        </option>
 
         <option value="O">O</option>
         <option value="A+">A+</option>
@@ -70,89 +134,150 @@ document.addEventListener('DOMContentLoaded', () => {
         <option value="F">F</option>
 
       </select>
+
     `;
 
+    // Remove Subject
+
+    subjectDiv
+      .querySelector(".remove-btn")
+      .addEventListener("click", () => {
+
+        subjectDiv.remove();
+
+        subjectCount--;
+
+        updateStats();
+
+        if (subjectCount === 0) {
+
+          emptyState.style.display = "block";
+
+        }
+
+      });
+
     subjectsDiv.appendChild(subjectDiv);
+
   }
 
-  // Calculate SGPA and Percentage
+  // Calculate
 
   function calculate() {
 
-    const grades = document.querySelectorAll(".grade");
-    const credits = document.querySelectorAll(".credit");
+    const grades =
+      document.querySelectorAll(".grade");
+
+    const credits =
+      document.querySelectorAll(".credit");
 
     let totalWeightedPoints = 0;
-    let totalCredits = 0;
 
-    // Loop through all subjects
+    let totalCredits = 0;
 
     for (let i = 0; i < grades.length; i++) {
 
       const grade = grades[i].value;
-      const credit = parseFloat(credits[i].value);
 
-      // Validation
+      const credit =
+        parseFloat(credits[i].value);
 
       if (!grade || isNaN(credit)) {
-        alert("Please enter all grades and credits.");
+
+        alert(
+          "Please fill all subjects properly."
+        );
+
         return;
       }
 
-      // Get Grade Point
-
-      const gradePoint = gradePoints[grade];
-
-      // SGPA Formula
-
-      totalWeightedPoints += gradePoint * credit;
+      totalWeightedPoints +=
+        gradePoints[grade] * credit;
 
       totalCredits += credit;
+
     }
 
-    // Check if subjects exist
-
     if (totalCredits === 0) {
-      result.innerText = "Please add subjects properly.";
+
+      alert("Please add subjects.");
+
       return;
     }
 
-    // Calculate SGPA
+    const sgpa =
+      totalWeightedPoints / totalCredits;
 
-    const sgpa = totalWeightedPoints / totalCredits;
+    const percentage =
+      sgpa * 10;
 
-    // Calculate Percentage
-
-    const percentage = sgpa * 10;
-
-    // Display Result
+    result.style.display = "block";
 
     result.innerHTML = `
-    
-      🎯 Your SGPA is:
-      <strong>${sgpa.toFixed(2)}</strong>
 
-      <br><br>
+      <h2>
+        🎉 Result
+      </h2>
 
-      📊 Estimated Percentage:
-      <strong>${percentage.toFixed(2)}%</strong>
+      <div class="result-info">
+
+        <div class="result-box">
+
+          <h3>SGPA</h3>
+
+          <p>
+            ${sgpa.toFixed(2)}
+          </p>
+
+        </div>
+
+        <div class="result-box">
+
+          <h3>Percentage</h3>
+
+          <p>
+            ${percentage.toFixed(2)}%
+          </p>
+
+        </div>
+
+      </div>
 
     `;
+
+    creditCounter.innerText =
+      totalCredits;
+
   }
 
-  // Reset Function
+  // Reset
 
   function resetAll() {
 
-    const confirmReset = confirm("Are you sure you want to reset?");
+    const confirmReset =
+      confirm("Reset everything?");
 
-    if (confirmReset) {
+    if (!confirmReset) return;
 
-      subjectsDiv.innerHTML = "";
-      result.innerHTML = "";
-      subjectCount = 0;
+    subjectsDiv.innerHTML = "";
 
-    }
+    result.style.display = "none";
+
+    subjectCount = 0;
+
+    updateStats();
+
+    emptyState.style.display = "block";
+
+  }
+
+  // Update Stats
+
+  function updateStats() {
+
+    subjectCounter.innerText =
+      subjectCount;
+
   }
 
 });
