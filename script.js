@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const subjectsDiv = document.getElementById("subjects");
   const result = document.getElementById("result");
 
+  // Buttons
+
   document.getElementById("addSubjectBtn")
           .addEventListener("click", addSubject);
 
@@ -73,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     subjectsDiv.appendChild(subjectDiv);
   }
 
-  // Calculate SGPA
+  // Calculate SGPA and Percentage
 
   function calculate() {
 
@@ -83,33 +85,58 @@ document.addEventListener('DOMContentLoaded', () => {
     let totalWeightedPoints = 0;
     let totalCredits = 0;
 
+    // Loop through all subjects
+
     for (let i = 0; i < grades.length; i++) {
 
       const grade = grades[i].value;
       const credit = parseFloat(credits[i].value);
+
+      // Validation
 
       if (!grade || isNaN(credit)) {
         alert("Please enter all grades and credits.");
         return;
       }
 
+      // Get Grade Point
+
       const gradePoint = gradePoints[grade];
+
+      // SGPA Formula
 
       totalWeightedPoints += gradePoint * credit;
 
       totalCredits += credit;
     }
 
+    // Check if subjects exist
+
     if (totalCredits === 0) {
       result.innerText = "Please add subjects properly.";
       return;
     }
 
+    // Calculate SGPA
+
     const sgpa = totalWeightedPoints / totalCredits;
 
+    // Calculate Percentage
+
+    const percentage = sgpa * 10;
+
+    // Display Result
+
     result.innerHTML = `
-      🎯 Your SGPA is: 
+    
+      🎯 Your SGPA is:
       <strong>${sgpa.toFixed(2)}</strong>
+
+      <br><br>
+
+      📊 Estimated Percentage:
+      <strong>${percentage.toFixed(2)}%</strong>
+
     `;
   }
 
